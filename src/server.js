@@ -8,4 +8,8 @@ const routes = require("./routes");
 const server = express();
 server.use(cors());
 server.use(bodyParser.urlencoded({ extended: false }));
-server.use("/api", routes);
+server.use("", routes);
+
+// server.listen(process.env.PORT || 3001, () => {
+//   console.log(`Server running on port ${process.env.PORT || 3001}`);
+// });
