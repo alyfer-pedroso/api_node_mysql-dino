@@ -9,8 +9,3 @@ const server = express();
 server.use(cors());
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use("/api", routes);
-
-server.listen(process.env.PORT, () => {
-  console.log(`Server is running in http://localhost:${process.env.PORT}`);
-  console.log(`API: http://localhost:${process.env.PORT}/api/`);
-});
