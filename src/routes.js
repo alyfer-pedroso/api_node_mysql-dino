@@ -16,8 +16,8 @@ const authToken = (req, res, next) => {
 };
 
 router.get("/users", authToken, LoginController.searchAll);
-router.post("/users/register", LoginController.register);
-router.get("/users/login", LoginController.verifyLogin);
-router.delete("/users/delete/:id", LoginController.deleteUser);
+router.post("/users/register", authToken, LoginController.register);
+router.get("/users/login", authToken, LoginController.verifyLogin);
+router.delete("/users/delete/:id", authToken, LoginController.deleteUser);
 
 module.exports = router;
