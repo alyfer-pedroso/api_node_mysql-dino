@@ -6,7 +6,7 @@ const LoginController = require("./controllers/LoginController");
 const authToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
-  console.log(process.env.TOKEN);
+  console.log("token", token)
   if (token == null) return res.sendStatus(401);
 
   const expectedToken = process.env.TOKEN;
