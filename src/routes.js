@@ -5,21 +5,21 @@ const router = express.Router();
 
 const UsersController = require("./controllers/UsersController");
 
-//#region get
+//#region GET
 router.get("/users", authToken, UsersController.searchAll);
 router.get("/users/login", authToken, UsersController.verifyLogin);
-//#endregion get
+//#endregion GET
 
-//#region post
+//#region POST
 router.post("/users/register", authToken, UsersController.register);
-//#endregion post
+//#endregion POST
 
-//#region patch
+//#region PATCH
 router.patch("/users/changePassword", authToken, UsersController.changePassword);
-//#endregion patch
+//#endregion PATCH
 
-//#region delete
+//#region DELETE
 router.delete("/users/delete/:id", authToken, UsersController.deleteUser);
-//#endregion delete
+//#endregion DELETE
 
 module.exports = router;
