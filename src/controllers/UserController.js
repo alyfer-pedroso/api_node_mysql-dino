@@ -14,6 +14,7 @@ module.exports = {
       }
 
       const changePASS = await UserService.changePassword(password, id);
+      console.log(changePASS);
       json.status = "Senha atualizada com sucesso!";
       json.data = { id, password };
     } else {
