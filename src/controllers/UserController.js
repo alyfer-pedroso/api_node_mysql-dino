@@ -8,6 +8,7 @@ module.exports = {
 
     if (password && id) {
       const verifyIfExist = await UserService.verifyID(id);
+      console.log("verifyIfExist", verifyIfExist);
       if (verifyIfExist.length < 1) {
         json.status = `Não foi possível encontrar o ID: ${id}`;
         return resp.json(json);
