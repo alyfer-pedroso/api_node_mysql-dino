@@ -1,9 +1,9 @@
-const UsersServices = require("../services/UsersServices");
+const UsersService = require("../services/UsersService");
 
 module.exports = {
   searchAll: async (req, resp) => {
     let json = { status: "", data: [] };
-    const users = await UsersServices.searchAll();
+    const users = await UsersService.searchAll();
     for (let i in users) {
       json.data.push({
         id: users[i].id,
@@ -20,7 +20,7 @@ module.exports = {
     let password = req.body.password;
 
     if (user && password) {
-      const result = await UsersServices.verifyLogin(user, password);
+      const result = await UsersService.verifyLogin(user, password);
       result.length > 0
         ? (json = { status: "Login efetuado com sucesso!", data: { user: result[0].user, password: result[0].password } })
         : (json.status = "Login inválido!");
@@ -40,12 +40,12 @@ module.exports = {
     let password = req.body.password;
 
     if (user && password) {
-      const verifyIfExist = await UsersServices.verifyLogin(user, password);
+      const verifyIfExist = await UsersService.verifyLogin(user, password);
       if (verifyIfExist.length > 0) {
         json.status = "Usuário ja existente";
         return resp.json(json);
       }
-      const registerID = await UsersServices.register(user, password);
+      const registerID = await UsersService.register(user, password);
       json.status = "Usuário cadastrado com sucesso!";
       json.data = { id: registerID, user, password };
     } else {
@@ -65,13 +65,13 @@ module.exports = {
     let id = req.body.id;
 
     if (password && id) {
-      const verifyIfExist = await UsersServices.verifyID(id);
+      const verifyIfExist = await UsersService.verifyID(id);
       if (verifyIfExist.length < 1) {
         json.status = `Não foi possível encontrar o ID: ${id}`;
         return resp.json(json);
       }
 
-      await UsersServices.changePassword(password, id);
+      await UsersService.changePassword(password, id);
       json.status = "Senha atualizada com sucesso!";
       json.data = { id, password };
     } else {
@@ -87,7 +87,7 @@ module.exports = {
 
   deleteUser: async (req, resp) => {
     let json = { status: "", data: {} };
-    await UsersServices.deleteUser(req.params.id);
+    await UsersService.deleteUser(req.params.id);
     resp.json(json);
   },
 };
