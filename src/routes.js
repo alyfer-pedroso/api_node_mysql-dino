@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const LoginController = require("./controllers/LoginController");
+const UserController = require("./controllers/UserController");
 
 const authToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
@@ -15,9 +16,21 @@ const authToken = (req, res, next) => {
   next();
 };
 
+//#region get
 router.get("/users", authToken, LoginController.searchAll);
-router.post("/users/register", authToken, LoginController.register);
 router.get("/users/login", authToken, LoginController.verifyLogin);
+//#endregion get
+
+//#region post
+router.post("/users/register", authToken, LoginController.register);
+//#endregion post
+
+//#region update
+router.update("/users/changePassord", authToken, UserController.changePassword);
+//#endregion update
+
+//#region delete
 router.delete("/users/delete/:id", authToken, LoginController.deleteUser);
+//#endregion delete
 
 module.exports = router;
