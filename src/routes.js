@@ -25,9 +25,9 @@ router.get("/users/login", authToken, LoginController.verifyLogin);
 router.post("/users/register", authToken, LoginController.register);
 //#endregion post
 
-//#region update
-router.update("/users/changePassord", authToken, UserController.changePassword);
-//#endregion update
+//#region patch
+router.patch("/users/changePassord", authToken, UserController.changePassword);
+//#endregion patch
 
 //#region delete
 router.delete("/users/delete/:id", authToken, LoginController.deleteUser);
