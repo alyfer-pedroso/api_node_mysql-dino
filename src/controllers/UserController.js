@@ -13,8 +13,7 @@ module.exports = {
         return resp.json(json);
       }
 
-      const changePASS = await UserService.changePassword(password, id);
-      console.log(changePASS);
+      await UserService.changePassword(password, id);
       json.status = "Senha atualizada com sucesso!";
       json.data = { id, password };
     } else {

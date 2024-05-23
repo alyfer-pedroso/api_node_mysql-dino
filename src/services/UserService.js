@@ -5,6 +5,7 @@ module.exports = {
     return new Promise((accept, reject) => {
       db.query("SELECT * FROM users WHERE id = ?", [id], (error, result) => {
         if (error) return reject(error);
+        console.log("result", result);
         if (accept.length > 0) {
           accept(result[0]);
         } else {
