@@ -26,7 +26,7 @@ router.post("/users/register", authToken, LoginController.register);
 //#endregion post
 
 //#region patch
-router.patch("/users/changePassord", authToken, UserController.changePassword);
+router.patch("/users/changePassword", authToken, UserController.changePassword);
 //#endregion patch
 
 //#region delete
