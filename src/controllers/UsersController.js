@@ -1,7 +1,7 @@
 const UsersService = require("../services/UsersService");
 
 module.exports = {
-  searchAll: async (req, resp) => {
+  searchAll: async (_req, resp) => {
     let json = { status: "", data: [] };
     const users = await UsersService.searchAll();
     for (let i in users) {
@@ -59,14 +59,20 @@ module.exports = {
     resp.json(json);
   },
 
+  deleteUser: async (req, resp) => {
+    let json = { status: "", data: {} };
+    await UsersService.deleteUser(req.params.id);
+    resp.json(json);
+  },
+
   changePassword: async (req, resp) => {
     let json = { status: "", data: {} };
     let password = req.body.password;
     let id = req.body.id;
 
     if (password && id) {
-      const verifyIfExist = await UsersService.verifyID(id);
-      if (verifyIfExist.length < 1) {
+      const exist = await UsersService.verifyID(id);
+      if (exist.length < 1) {
         json.status = `Não foi possível encontrar o ID: ${id}`;
         return resp.json(json);
       }
@@ -85,9 +91,29 @@ module.exports = {
     resp.json(json);
   },
 
-  deleteUser: async (req, resp) => {
+  setOnline: async (req, resp) => {
     let json = { status: "", data: {} };
-    await UsersService.deleteUser(req.params.id);
+    let online = req.body.online;
+    let id = req.body.id;
+
+    if (online && id) {
+      const exist = await UsersService.verifyID(id);
+      if (exist.length < 1) {
+        json.status = `Não foi possível encontrar o ID: ${id}`;
+        return resp.json(json);
+      }
+
+      await UsersService.setOnline(online, id);
+      json.status = "A alteração foi efetuada com sucesso!";
+      json.data = { id, online };
+    } else {
+      json.status = "A alteração não pode ser efetuada.";
+    }
+
+    if (!id || !online) {
+      json.status = "Preencha todos os campos!";
+    }
+
     resp.json(json);
   },
 };
