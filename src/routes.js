@@ -1,9 +1,19 @@
-import { authToken } from "./functions";
-
 const express = require("express");
 const router = express.Router();
 
 const UsersController = require("./controllers/UsersController");
+
+const authToken = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (token == null) return res.sendStatus(401);
+
+  const expectedToken = process.env.TOKEN;
+  if (token !== expectedToken) return res.sendStatus(403);
+
+  next();
+};
 
 //#region GET
 router.get("/users", authToken, UsersController.searchAll);

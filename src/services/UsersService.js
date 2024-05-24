@@ -10,6 +10,15 @@ module.exports = {
     });
   },
 
+  verifyEmail: (email) => {
+    return new Promise((accept, reject) => {
+      db.query("SELECT * FROM users WHERE email = ? ", [email], (error, result) => {
+        if (error) return reject(error);
+        accept(result);
+      });
+    });
+  },
+
   searchAll: () => {
     return new Promise((accept, reject) => {
       db.query("SELECT * FROM users", (error, result) => {
@@ -19,18 +28,18 @@ module.exports = {
     });
   },
 
-  verifyLogin: (user, password) => {
+  verifyLogin: (email, password) => {
     return new Promise((accept, reject) => {
-      db.query("SELECT * FROM users WHERE user = ? AND password = ? ", [user, password], (error, result) => {
+      db.query("SELECT * FROM users WHERE email = ? AND password = ? ", [email, password], (error, result) => {
         if (error) return reject(error);
         accept(result);
       });
     });
   },
 
-  register: (user, password) => {
+  register: (email, user, password) => {
     return new Promise((accept, reject) => {
-      db.query("INSERT INTO users (user, password) values (?, ?)", [user, password], (error, result) => {
+      db.query("INSERT INTO users (email, user, password) values (?, ?, ?)", [email, user, password], (error, result) => {
         if (error) return reject(error);
         accept.length > 0 ? accept(result[0]) : accept(false);
       });
