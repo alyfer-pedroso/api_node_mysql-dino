@@ -7,6 +7,7 @@ module.exports = {
     for (let i in users) {
       json.data.push({
         id: users[i].id,
+        email: users[i].email,
         user: users[i].user,
         password: users[i].password,
         online: users[i].online,
