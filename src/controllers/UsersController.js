@@ -9,6 +9,7 @@ module.exports = {
         id: users[i].id,
         user: users[i].user,
         password: users[i].password,
+        online: users[i].online,
       });
     }
     resp.json(json);
