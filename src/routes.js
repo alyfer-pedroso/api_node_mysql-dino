@@ -16,7 +16,7 @@ router.post("/users/register", authToken, UsersController.register);
 
 //#region PATCH
 router.patch("/users/changePassword", authToken, UsersController.changePassword);
-router.patch("users/online", authToken, UsersController.setOnline);
+router.patch("/users/online", authToken, UsersController.setOnline);
 //#endregion PATCH
 
 //#region DELETE
