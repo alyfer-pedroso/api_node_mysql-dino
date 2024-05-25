@@ -1,4 +1,4 @@
-const { Sucessful, Error } = require("../classes/message");
+const { Sucessful, Error } = require("../classes");
 const UsersService = require("../services/UsersService");
 
 module.exports = {
@@ -12,49 +12,34 @@ module.exports = {
   },
 
   verifyLogin: async (req, resp) => {
-    let json = { status: "", data: {} };
-    let email = req.body.email;
-    let password = req.body.password;
-
-    if (email && password) {
-      const result = await UsersService.verifyLogin(email, password);
-      result.length > 0
-        ? (json = { status: "Login efetuado com sucesso!", data: { email: result[0].email, password: result[0].password } })
-        : (json.status = "Login inválido!");
-    } else {
-      json.status = "O Login não pode ser efetuado";
+    const { email, password } = req.body;
+    try {
+      if (email && password) {
+        const result = await UsersService.verifyLogin(email, password);
+        result.length > 0
+          ? resp.json(new Sucessful({ email: result[0].email, password: result[0].password }, "Login efetuado com sucesso!"))
+          : resp.json(new Error("Email ou Senha incorretos!", "Login inválido!"));
+      }
+      if (!email || !password) resp.json(new Error("Preencha todos os campos!", "Login inválido"));
+    } catch (error) {
+      resp.json(new Error(error.message));
     }
-
-    if (!email || !password) {
-      json.status = "Preencha todos os campos!";
-    }
-    resp.json(json);
   },
 
   register: async (req, resp) => {
-    let json = { status: "", data: {} };
-    let email = req.body.email;
-    let user = req.body.user;
-    let password = req.body.password;
-
-    if (email && user && password) {
-      const verifyIfExist = await UsersService.verifyEmail(email);
-      if (verifyIfExist.length > 0) {
-        json.status = "Esse email já está sendo usado.";
-        return resp.json(json);
+    const { email, user, password } = req.body;
+    try {
+      if (email && user && password) {
+        const verifyIfExist = await UsersService.verifyEmail(email);
+        if (verifyIfExist.length > 0) return resp.json(new Error("Esse email já está sendo usado.", "Registro inválido!"));
+        const register = await UsersService.register(email, user, password);
+        resp.json(new Sucessful({ ...register, registration_date: new Date() }, "Usuário cadastrado com sucesso!"));
       }
-      const registerID = await UsersService.register(email, user, password, new Date());
-      json.status = "Usuário cadastrado com sucesso!";
-      json.data = { id: registerID, ...req.body, registration_date: new Date() };
-    } else {
-      json.status = "Novo usuário não pode ser criado";
-    }
 
-    if (!email || !user || !password) {
-      json.status = "Preencha todos os campos!";
+      if (!email || !user || !password) resp.json(new Error("Preencha todos os campos!", "Registro inválido"));
+    } catch (error) {
+      resp.json(new Error(error.message));
     }
-
-    resp.json(json);
   },
 
   deleteUser: async (req, resp) => {
