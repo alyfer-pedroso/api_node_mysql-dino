@@ -1,19 +1,14 @@
+const { Sucessful, Error } = require("../classes/message");
 const UsersService = require("../services/UsersService");
 
 module.exports = {
   searchAll: async (_req, resp) => {
-    let json = { status: "", data: [] };
-    const users = await UsersService.searchAll();
-    for (let i in users) {
-      json.data.push({
-        id: users[i].id,
-        email: users[i].email,
-        user: users[i].user,
-        password: users[i].password,
-        online: users[i].online,
-      });
+    try {
+      const users = await UsersService.searchAll();
+      resp.json(new Sucessful(users));
+    } catch (error) {
+      resp.json(new Error(error.message));
     }
-    resp.json(json);
   },
 
   verifyLogin: async (req, resp) => {
@@ -48,9 +43,9 @@ module.exports = {
         json.status = "Esse email já está sendo usado.";
         return resp.json(json);
       }
-      const registerID = await UsersService.register(email, user, password);
+      const registerID = await UsersService.register(email, user, password, new Date());
       json.status = "Usuário cadastrado com sucesso!";
-      json.data = { id: registerID, email, user, password };
+      json.data = { id: registerID, ...req.body, registration_date: new Date() };
     } else {
       json.status = "Novo usuário não pode ser criado";
     }
