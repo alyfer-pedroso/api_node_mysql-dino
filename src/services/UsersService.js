@@ -3,7 +3,7 @@ const db = require("../db");
 module.exports = {
   verifyID: (id) => {
     return new Promise((accept, reject) => {
-      db.query("SELECT * FROM users WHERE id = ?", [id], (error, result) => {
+      db.query("SELECT * FROM Users WHERE id = ?", [id], (error, result) => {
         if (error) return reject(error);
         accept(result);
       });
@@ -12,7 +12,7 @@ module.exports = {
 
   verifyEmail: (email) => {
     return new Promise((accept, reject) => {
-      db.query("SELECT * FROM users WHERE email = ? ", [email], (error, result) => {
+      db.query("SELECT * FROM Users WHERE email = ? ", [email], (error, result) => {
         if (error) return reject(error);
         accept(result);
       });
@@ -21,7 +21,7 @@ module.exports = {
 
   searchAll: () => {
     return new Promise((accept, reject) => {
-      db.query("SELECT * FROM users", (error, result) => {
+      db.query("SELECT * FROM Users", (error, result) => {
         if (error) return reject(error);
         accept(result);
       });
@@ -30,7 +30,7 @@ module.exports = {
 
   verifyLogin: (email, password) => {
     return new Promise((accept, reject) => {
-      db.query("SELECT * FROM users WHERE email = ? AND password = ? ", [email, password], (error, result) => {
+      db.query("SELECT * FROM Users WHERE email = ? AND password = ? ", [email, password], (error, result) => {
         if (error) return reject(error);
         accept(result);
       });
@@ -39,16 +39,16 @@ module.exports = {
 
   register: (email, user, password) => {
     return new Promise((accept, reject) => {
-      db.query("INSERT INTO users (email, user, password, registration_date) values (?, ?, ?, NOW())", [email, user, password], (error, result) => {
+      db.query("INSERT INTO Users (email, user, password, registration_date) values (?, ?, ?, NOW())", [email, user, password], (error, result) => {
         if (error) return reject(error);
-        accept.length > 0 ? accept(result[0]) : accept(false);
+        accept(result);
       });
     });
   },
 
   deleteUser: (id) => {
     return new Promise((accept, reject) => {
-      db.query("DELETE FROM users WHERE id = ?", [id], (error, result) => {
+      db.query("DELETE FROM Users WHERE id = ?", [id], (error, result) => {
         if (error) return reject(error);
         accept(result);
       });
@@ -57,7 +57,7 @@ module.exports = {
 
   changePassword: (password, id) => {
     return new Promise((accept, reject) => {
-      db.query("UPDATE users SET password = ? WHERE users.id = ? ", [password, id], (error, result) => {
+      db.query("UPDATE Users SET password = ? WHERE Users.id = ? ", [password, id], (error, result) => {
         if (error) return reject(error);
         accept.length > 0 ? accept(result[0]) : accept(false);
       });
@@ -66,7 +66,7 @@ module.exports = {
 
   setOnline: (online, id) => {
     return new Promise((accept, reject) => {
-      db.query("UPDATE users SET online = ? WHERE users.id = ? ", [online, id], (error, result) => {
+      db.query("UPDATE Users SET online = ? WHERE Users.id = ? ", [online, id], (error, result) => {
         if (error) return reject(error);
         accept.length < 0 ? accept(result[0]) : accept(false);
       });
