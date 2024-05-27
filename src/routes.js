@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const UsersController = require("./controllers/UsersController");
+const TagsController = require("./controllers/TagsController");
 
 const authToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
@@ -18,6 +19,7 @@ const authToken = (req, res, next) => {
 //#region GET
 router.get("/users", authToken, UsersController.searchAll);
 router.get("/users/login", authToken, UsersController.verifyLogin);
+router.get("/tags", authToken, TagsController.getAll);
 //#endregion GET
 
 //#region POST
