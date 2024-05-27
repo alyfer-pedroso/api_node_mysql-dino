@@ -73,7 +73,7 @@ module.exports = {
   setOnline: async (req, resp) => {
     const { online, id } = req.body;
     try {
-      if (!id || !online) return resp.json(new Error("Preencha todos os campos!", "Alteração inválida"));
+      if (!id || online === null) return resp.json(new Error("Preencha todos os campos!", "Alteração inválida"));
 
       const exist = await UsersService.verifyID(id);
       if (exist.length < 1) return resp.json(new Error(`Não foi possível encontrar o ID: ${id}`, "Alteração inválida"));
