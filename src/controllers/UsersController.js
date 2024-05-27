@@ -34,7 +34,7 @@ module.exports = {
       if (verifyIfExist.length > 0) return resp.json(new Error("Esse email já está sendo usado.", "Registro inválido!"));
 
       await UsersService.register(email, user, password);
-      resp.json(new Sucessful({ ...req.body, registration_date: new Date() }, "Usuário cadastrado com sucesso!"));
+      resp.json(new Sucessful(req.body, "Usuário cadastrado com sucesso!"));
     } catch (error) {
       resp.json(new Error(error.message));
     }

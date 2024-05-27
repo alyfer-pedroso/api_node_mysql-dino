@@ -9,4 +9,13 @@ module.exports = {
       });
     });
   },
+
+  newTag: (desc) => {
+    return new Promise((accept, result) => {
+      db.query("INSERT INTO Tags (description) VALUES (?);", [desc], (error, result) => {
+        if (error) return result(error);
+        accept(result);
+      });
+    });
+  },
 };

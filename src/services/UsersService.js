@@ -39,7 +39,7 @@ module.exports = {
 
   register: (email, user, password) => {
     return new Promise((accept, reject) => {
-      db.query("INSERT INTO Users (email, user, password, registration_date) values (?, ?, ?, NOW())", [email, user, password], (error, result) => {
+      db.query("INSERT INTO Users (email, user, password) values (?, ?, ?)", [email, user, password], (error, result) => {
         if (error) return reject(error);
         accept(result);
       });
