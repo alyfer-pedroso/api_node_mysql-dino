@@ -24,6 +24,7 @@ router.get("/tags", authToken, TagsController.getAll);
 
 //#region POST
 router.post("/users/register", authToken, UsersController.register);
+router.post("/tags/newTag", authToken, TagsController.newTag);
 //#endregion POST
 
 //#region PATCH

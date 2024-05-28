@@ -11,9 +11,9 @@ module.exports = {
   },
 
   newTag: (desc) => {
-    return new Promise((accept, result) => {
+    return new Promise((accept, reject) => {
       db.query("INSERT INTO Tags (description) VALUES (?);", [desc], (error, result) => {
-        if (error) return result(error);
+        if (error) return reject(error);
         accept(result);
       });
     });
