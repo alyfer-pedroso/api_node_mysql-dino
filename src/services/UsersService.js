@@ -1,7 +1,7 @@
 const db = require("../db");
 
 module.exports = {
-  verifyID: (id) => {
+  findByID: (id) => {
     return new Promise((accept, reject) => {
       db.query("SELECT * FROM Users WHERE id = ?", [id], (error, result) => {
         if (error) return reject(error);
@@ -10,7 +10,7 @@ module.exports = {
     });
   },
 
-  verifyEmail: (email) => {
+  findByEmail: (email) => {
     return new Promise((accept, reject) => {
       db.query("SELECT * FROM Users WHERE email = ? ", [email], (error, result) => {
         if (error) return reject(error);
@@ -37,9 +37,9 @@ module.exports = {
     });
   },
 
-  register: (email, user, password) => {
+  register: (email, user, password, iv) => {
     return new Promise((accept, reject) => {
-      db.query("INSERT INTO Users (email, user, password) values (?, ?, ?)", [email, user, password], (error, result) => {
+      db.query("INSERT INTO Users (email, user, password, iv) values (?, ?, ?, ?)", [email, user, password, iv], (error, result) => {
         if (error) return reject(error);
         accept(result);
       });
@@ -55,9 +55,9 @@ module.exports = {
     });
   },
 
-  changePassword: (password, id) => {
+  changePassword: (id, password, iv) => {
     return new Promise((accept, reject) => {
-      db.query("UPDATE Users SET password = ? WHERE Users.id = ? ", [password, id], (error, result) => {
+      db.query("UPDATE Users SET password = ?, iv = ? WHERE Users.id = ? ", [password, iv, id], (error, result) => {
         if (error) return reject(error);
         accept.length > 0 ? accept(result[0]) : accept(false);
       });
