@@ -20,6 +20,8 @@ module.exports = {
       const user = await UsersService.findByEmail(email);
       if (user.length > 0) {
         const result = await UsersService.verifyLogin(email, encrypt(password, user[0]?.iv).data);
+        delete result[0].password;
+        delete result[0].iv;
         if (result.length > 0) return resp.json(new Sucessful({ ...result[0] }, "Login efetuado com sucesso!"));
       }
 
