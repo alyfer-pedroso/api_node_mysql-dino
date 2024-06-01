@@ -1,6 +1,6 @@
-const UsersService = require("../services/UsersService");
-const { Sucessful, Error } = require("../classes");
-const { encrypt } = require("../functions/crypt");
+const UsersService = require("../../services/UsersService");
+const { Sucessful, Error } = require("../../classes");
+const { encrypt } = require("../../functions/crypt");
 
 module.exports = {
   searchAll: async (_req, resp) => {

@@ -1,5 +1,5 @@
-const { Sucessful, Error } = require("../classes");
-const TagsService = require("../services/TagsService");
+const TagsService = require("../../services/TagsService");
+const { Sucessful, Error } = require("../../classes");
 
 module.exports = {
   getAll: async (_req, resp) => {
